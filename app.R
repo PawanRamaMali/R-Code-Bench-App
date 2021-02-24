@@ -53,7 +53,7 @@ server <- function(input, output) {
             cat(code_text,file=rcon)
             print(code_text)
             close(rcon)
-            R2 <<- R2html("code.R", "out_html.html",browse = FALSE, title = "")
+            R2html("code.R", "www/out_html.html",browse = FALSE, title = "")
 
             output$htmlOutput_2 <- renderUI({
                     tags$iframe(
