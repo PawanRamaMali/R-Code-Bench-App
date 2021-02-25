@@ -2,14 +2,13 @@
 library(shiny)
 library(shinydashboard)
 library(prettyR)
-library(R2HTML)
 
-addResourcePath("www", "E:/Qualitest/Code/feb-24-a/www")
-setwd("E:/Qualitest/Code/feb-24-a/www")
+addResourcePath("www", "E:/Code/feb-24-a/www")
+
 
 ui <- fluidPage(
     dashboardPage(
-        dashboardHeader(title = "Live Coding"),
+        dashboardHeader(title = "Code Bench"),
         dashboardSidebar(),
         dashboardBody(
             
@@ -46,22 +45,33 @@ ui <- fluidPage(
 server <- function(input, output) {
     
     observeEvent(input$actionButton_1, {
+            
 
+            cwd <- getwd()
+            setwd("E://Code//feb-24-a//www")
+            print(getwd())
+            on.exit(setwd(cwd)) 
+            
             code_text <- input$Coding_editor
-            code_2 <- eval(parse(text=gsub('\r','', code_text, fixed = TRUE)))
+            
             rcon<-file("code.R","w")
             cat(code_text,file=rcon)
             print(code_text)
             close(rcon)
-            R2html("code.R", "www/out_html.html",browse = FALSE, title = "")
+            R2html("code.R", "out_html.html",browse = FALSE, title = "",bgcolor="#FFFFFF")
+            
 
+            print(getwd())
             output$htmlOutput_2 <- renderUI({
                     tags$iframe(
                     seamless="seamless",
                     src="www/out_html_list.html",
                     height=600, width=635)
             
+            
+            
             })
+           
     })
     
 }
